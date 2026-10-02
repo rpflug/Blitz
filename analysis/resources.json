@@ -1,0 +1,162 @@
+[
+  {
+    "type": "MADH",
+    "id": 128,
+    "name": "",
+    "size": 43962,
+    "attributes": 0,
+    "path": "resources/MADH_128.bin"
+  },
+  {
+    "type": "PICT",
+    "id": 128,
+    "name": "",
+    "size": 8626,
+    "attributes": 0,
+    "path": "resources/PICT_128.bin"
+  },
+  {
+    "type": "icl8",
+    "id": 128,
+    "name": "",
+    "size": 1024,
+    "attributes": 0,
+    "path": "resources/icl8_128.bin"
+  },
+  {
+    "type": "ICN#",
+    "id": 128,
+    "name": "",
+    "size": 256,
+    "attributes": 0,
+    "path": "resources/ICN__128.bin"
+  },
+  {
+    "type": "icl4",
+    "id": 128,
+    "name": "",
+    "size": 512,
+    "attributes": 0,
+    "path": "resources/icl4_128.bin"
+  },
+  {
+    "type": "ics8",
+    "id": 128,
+    "name": "",
+    "size": 256,
+    "attributes": 0,
+    "path": "resources/ics8_128.bin"
+  },
+  {
+    "type": "ics4",
+    "id": 128,
+    "name": "",
+    "size": 128,
+    "attributes": 0,
+    "path": "resources/ics4_128.bin"
+  },
+  {
+    "type": "ics#",
+    "id": 128,
+    "name": "",
+    "size": 64,
+    "attributes": 0,
+    "path": "resources/ics__128.bin"
+  },
+  {
+    "type": "BNDL",
+    "id": 128,
+    "name": "",
+    "size": 28,
+    "attributes": 0,
+    "path": "resources/BNDL_128.bin"
+  },
+  {
+    "type": "BLTZ",
+    "id": 0,
+    "name": "Owner resource",
+    "size": 1,
+    "attributes": 0,
+    "path": "resources/BLTZ_0.bin"
+  },
+  {
+    "type": "FREF",
+    "id": 128,
+    "name": "",
+    "size": 7,
+    "attributes": 0,
+    "path": "resources/FREF_128.bin"
+  },
+  {
+    "type": "CODE",
+    "id": 1,
+    "name": "Sources",
+    "size": 4942,
+    "attributes": 40,
+    "path": "resources/CODE_1.bin"
+  },
+  {
+    "type": "CODE",
+    "id": 3,
+    "name": "Mac Libraries",
+    "size": 27942,
+    "attributes": 40,
+    "path": "resources/CODE_3.bin"
+  },
+  {
+    "type": "CODE",
+    "id": 4,
+    "name": "",
+    "size": 19834,
+    "attributes": 40,
+    "path": "resources/CODE_4.bin"
+  },
+  {
+    "type": "CODE",
+    "id": 0,
+    "name": "",
+    "size": 24,
+    "attributes": 40,
+    "path": "resources/CODE_0.bin"
+  },
+  {
+    "type": "DATA",
+    "id": 0,
+    "name": "",
+    "size": 2666,
+    "attributes": 40,
+    "path": "resources/DATA_0.bin"
+  },
+  {
+    "type": "SIZE",
+    "id": -1,
+    "name": "",
+    "size": 10,
+    "attributes": 0,
+    "path": "resources/SIZE_-1.bin"
+  },
+  {
+    "type": "SIZE",
+    "id": 1,
+    "name": "",
+    "size": 10,
+    "attributes": 0,
+    "path": "resources/SIZE_1.bin"
+  },
+  {
+    "type": "SIZE",
+    "id": 0,
+    "name": "",
+    "size": 10,
+    "attributes": 0,
+    "path": "resources/SIZE_0.bin"
+  },
+  {
+    "type": "cfrg",
+    "id": 0,
+    "name": "",
+    "size": 80,
+    "attributes": 0,
+    "path": "resources/cfrg_0.bin"
+  }
+]

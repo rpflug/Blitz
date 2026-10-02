@@ -1,0 +1,234 @@
+{
+  "sha256": "d77683106147b89f09cf7e228adb35281a42de15447cf2815bb297189eb89780",
+  "sections": [
+    {
+      "nameOffset": -1,
+      "defaultAddress": 0,
+      "totalSize": 88960,
+      "unpackedSize": 88960,
+      "packedSize": 88960,
+      "fileOffset": 3936,
+      "kind": 0,
+      "share": 4,
+      "alignment": 4,
+      "reserved": 0,
+      "index": 0
+    },
+    {
+      "nameOffset": -1,
+      "defaultAddress": 0,
+      "totalSize": 17522,
+      "unpackedSize": 6442,
+      "packedSize": 3800,
+      "fileOffset": 92896,
+      "kind": 2,
+      "share": 1,
+      "alignment": 4,
+      "reserved": 0,
+      "index": 1
+    },
+    {
+      "nameOffset": -1,
+      "defaultAddress": 0,
+      "totalSize": 0,
+      "unpackedSize": 0,
+      "packedSize": 3808,
+      "fileOffset": 128,
+      "kind": 4,
+      "share": 4,
+      "alignment": 4,
+      "reserved": 0,
+      "index": 2
+    }
+  ],
+  "loader": {
+    "mainSection": 1,
+    "mainOffset": 1780,
+    "initSection": -1,
+    "initOffset": 0,
+    "termSection": -1,
+    "termOffset": 0,
+    "libraryCount": 2,
+    "importCount": 227,
+    "relocSectionCount": 1,
+    "relocOffset": 1024,
+    "stringsOffset": 1156,
+    "exportHashOffset": 3800,
+    "exportHashPower": 1,
+    "exportCount": 0
+  },
+  "libraries": [
+    {
+      "name": "InterfaceLib",
+      "count": 223,
+      "first": 0
+    },
+    {
+      "name": "MathLib",
+      "count": 4,
+      "first": 223
+    }
+  ],
+  "resources": [
+    {
+      "type": "MADH",
+      "id": 128,
+      "name": "",
+      "size": 43962,
+      "attributes": 0,
+      "path": "resources/MADH_128.bin"
+    },
+    {
+      "type": "PICT",
+      "id": 128,
+      "name": "",
+      "size": 8626,
+      "attributes": 0,
+      "path": "resources/PICT_128.bin"
+    },
+    {
+      "type": "icl8",
+      "id": 128,
+      "name": "",
+      "size": 1024,
+      "attributes": 0,
+      "path": "resources/icl8_128.bin"
+    },
+    {
+      "type": "ICN#",
+      "id": 128,
+      "name": "",
+      "size": 256,
+      "attributes": 0,
+      "path": "resources/ICN__128.bin"
+    },
+    {
+      "type": "icl4",
+      "id": 128,
+      "name": "",
+      "size": 512,
+      "attributes": 0,
+      "path": "resources/icl4_128.bin"
+    },
+    {
+      "type": "ics8",
+      "id": 128,
+      "name": "",
+      "size": 256,
+      "attributes": 0,
+      "path": "resources/ics8_128.bin"
+    },
+    {
+      "type": "ics4",
+      "id": 128,
+      "name": "",
+      "size": 128,
+      "attributes": 0,
+      "path": "resources/ics4_128.bin"
+    },
+    {
+      "type": "ics#",
+      "id": 128,
+      "name": "",
+      "size": 64,
+      "attributes": 0,
+      "path": "resources/ics__128.bin"
+    },
+    {
+      "type": "BNDL",
+      "id": 128,
+      "name": "",
+      "size": 28,
+      "attributes": 0,
+      "path": "resources/BNDL_128.bin"
+    },
+    {
+      "type": "BLTZ",
+      "id": 0,
+      "name": "Owner resource",
+      "size": 1,
+      "attributes": 0,
+      "path": "resources/BLTZ_0.bin"
+    },
+    {
+      "type": "FREF",
+      "id": 128,
+      "name": "",
+      "size": 7,
+      "attributes": 0,
+      "path": "resources/FREF_128.bin"
+    },
+    {
+      "type": "CODE",
+      "id": 1,
+      "name": "Sources",
+      "size": 4942,
+      "attributes": 40,
+      "path": "resources/CODE_1.bin"
+    },
+    {
+      "type": "CODE",
+      "id": 3,
+      "name": "Mac Libraries",
+      "size": 27942,
+      "attributes": 40,
+      "path": "resources/CODE_3.bin"
+    },
+    {
+      "type": "CODE",
+      "id": 4,
+      "name": "",
+      "size": 19834,
+      "attributes": 40,
+      "path": "resources/CODE_4.bin"
+    },
+    {
+      "type": "CODE",
+      "id": 0,
+      "name": "",
+      "size": 24,
+      "attributes": 40,
+      "path": "resources/CODE_0.bin"
+    },
+    {
+      "type": "DATA",
+      "id": 0,
+      "name": "",
+      "size": 2666,
+      "attributes": 40,
+      "path": "resources/DATA_0.bin"
+    },
+    {
+      "type": "SIZE",
+      "id": -1,
+      "name": "",
+      "size": 10,
+      "attributes": 0,
+      "path": "resources/SIZE_-1.bin"
+    },
+    {
+      "type": "SIZE",
+      "id": 1,
+      "name": "",
+      "size": 10,
+      "attributes": 0,
+      "path": "resources/SIZE_1.bin"
+    },
+    {
+      "type": "SIZE",
+      "id": 0,
+      "name": "",
+      "size": 10,
+      "attributes": 0,
+      "path": "resources/SIZE_0.bin"
+    },
+    {
+      "type": "cfrg",
+      "id": 0,
+      "name": "",
+      "size": 80,
+      "attributes": 0,
+      "path": "resources/cfrg_0.bin"
+    }
+  ]
+}

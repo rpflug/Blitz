@@ -1,0 +1,5 @@
+PASS: PowerPC listing reconstructs all 88,960 code-section bytes exactly.
+PASS: 68000 listings reconstruct every segment byte after its 4-byte header.
+PASS: packed data expands to declared size; resource payload lengths match.
+PASS: entry transition vector and 227 import stubs resolved symbolically.
+Runtime behavior and recovered C equivalence were not tested.

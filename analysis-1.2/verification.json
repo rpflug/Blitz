@@ -1,0 +1,27 @@
+{
+  "version": "1.2",
+  "motionEntriesMatched": 1024,
+  "circleEntriesMatched": 40,
+  "rampWordsMatched": 64,
+  "originalPPCInstructionsExecutedForTables": 84268,
+  "framebufferModesMatched": [
+    8,
+    16
+  ],
+  "pixelExactFramesMatched": [
+    0,
+    1,
+    2,
+    60,
+    256,
+    1023,
+    1024,
+    32767,
+    32768,
+    32769,
+    65535,
+    65536
+  ],
+  "consecutiveFramesPerMode": 121,
+  "referenceLimit": "Restricted PPC interpreter with host libm, not historical audio or hardware gamma reference."
+}

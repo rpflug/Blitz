@@ -2,7 +2,13 @@
 #import <MetalKit/MetalKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <QuartzCore/QuartzCore.h>
+#ifdef BLITZ12
+#include "../native12/BlitzCore.h"
+#define BLITZ_NAME @"Blitz 1.2"
+#else
 #include "BlitzCore.h"
+#define BLITZ_NAME @"Blitz"
+#endif
 #include "Music.h"
 
 static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\nstruct V{float4 position [[position]];float2 uv;};\nvertex V vtx(uint id [[vertex_id]]){float2 p[4]={float2(-1,1),float2(-1,-1),float2(1,1),float2(1,-1)};float2 uv[4]={float2(0,0),float2(0,1),float2(1,0),float2(1,1)};return {float4(p[id],0,1),uv[id]};}\nfragment float4 frag(V v [[stage_in]],texture2d<float> t [[texture(0)]]){constexpr sampler s(coord::normalized,filter::nearest,address::clamp_to_edge);return t.sample(s,v.uv);}\n";
@@ -26,6 +32,9 @@ static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\
     NSInteger _phase,_phaseStep;
     BOOL _paused,_muted;
     NSMenuItem *_speedLabel,*_pauseItem,*_muteItem;
+#ifdef BLITZ12
+    NSMenuItem *_depth8,*_depth16;
+#endif
     id _terminationObserver;
 }
 @property(nonatomic,strong) NSWindow *window;
@@ -53,10 +62,10 @@ static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\
 }
 - (void)setupMenus{
     NSMenu *bar=[NSMenu new];NSApp.mainMenu=bar;
-    NSMenuItem *app=[NSMenuItem new];[bar addItem:app];NSMenu *appMenu=[[NSMenu alloc]initWithTitle:@"Blitz"];app.submenu=appMenu;
-    [self item:@"About Blitz" action:@selector(about:) key:@"" menu:appMenu];
+    NSMenuItem *app=[NSMenuItem new];[bar addItem:app];NSMenu *appMenu=[[NSMenu alloc]initWithTitle:BLITZ_NAME];app.submenu=appMenu;
+    [self item:[@"About " stringByAppendingString:BLITZ_NAME] action:@selector(about:) key:@"" menu:appMenu];
     [appMenu addItem:NSMenuItem.separatorItem];
-    NSMenuItem *quit=[[NSMenuItem alloc]initWithTitle:@"Quit Blitz" action:@selector(terminate:) keyEquivalent:@"q"];[appMenu addItem:quit];
+    NSMenuItem *quit=[[NSMenuItem alloc]initWithTitle:[@"Quit " stringByAppendingString:BLITZ_NAME] action:@selector(terminate:) keyEquivalent:@"q"];[appMenu addItem:quit];
     NSMenuItem *play=[NSMenuItem new];[bar addItem:play];NSMenu *menu=[[NSMenu alloc]initWithTitle:@"Playback"];play.submenu=menu;
     [self item:@"Replay from Beginning" action:@selector(replay:) key:@"r" menu:menu];
     _pauseItem=[self item:@"Pause" action:@selector(togglePause:) key:@"p" menu:menu];
@@ -72,12 +81,21 @@ static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\
     [menu addItem:NSMenuItem.separatorItem];
     [self item:@"Save Current Frame…" action:@selector(saveFrame:) key:@"s" menu:menu];
     [self item:@"Full Screen" action:@selector(fullscreen:) key:@"f" menu:menu];
+#ifdef BLITZ12
+    NSMenuItem *display=[NSMenuItem new];[bar addItem:display];NSMenu *depthMenu=[[NSMenu alloc]initWithTitle:@"Display"];display.submenu=depthMenu;
+    _depth16=[self item:@"16-bit Grayscale (Original Configuration)" action:@selector(depth16:) key:@"2" menu:depthMenu];_depth16.state=NSControlStateValueOn;
+    _depth8=[self item:@"8-bit White Points" action:@selector(depth8:) key:@"1" menu:depthMenu];
+#endif
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification{
     _speed=1.0;_phase=0;_phaseStep=0;_frame=0;
     [self setupMenus];
     NSString *assets=NSBundle.mainBundle.resourcePath;
     if(!blitz_core_init(&_core,1024,768,assets.fileSystemRepresentation)){[self fail:@"The original Blitz resources could not be loaded."];return;}
+#ifdef BLITZ12
+    NSString *configuration=[NSString stringWithContentsOfFile:[assets stringByAppendingPathComponent:@"Blitz.cfg"] encoding:NSASCIIStringEncoding error:NULL];
+    blitz_core_depth(&_core,[configuration hasPrefix:@"16"]?16:8);_depth8.state=_core.depth==8?NSControlStateValueOn:NSControlStateValueOff;_depth16.state=_core.depth==16?NSControlStateValueOn:NSControlStateValueOff;
+#endif
     id<MTLDevice> device=MTLCreateSystemDefaultDevice();
     if(!device){[self fail:@"Metal is unavailable on this Mac."];return;}
     self.view=[[BlitzView alloc]initWithFrame:NSMakeRect(0,0,1024,768) device:device];self.view.controller=self;self.view.delegate=self;
@@ -125,7 +143,7 @@ static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\
     blitz_core_expand(&_core,fade);
     [_texture replaceRegion:MTLRegionMake2D(0,0,1024,768) mipmapLevel:0 withBytes:_core.bgra bytesPerRow:4096];
     [self.view setNeedsDisplay:YES];
-    self.window.title=[NSString stringWithFormat:@"Blitz — %@ — frame %u — %.2f×",_phase==0?@"Synergy 96":_phase==3?@"Finished":@"Synergy Design 1996",_frame,_speed];
+    self.window.title=[NSString stringWithFormat:@"%@ — %@ — frame %u — %.2f×",BLITZ_NAME,_phase==0?@"Synergy 96":_phase==3?@"Finished":@"Synergy Design 1996",_frame,_speed];
 }
 - (void)advance{
     if(_phase==0){if(++_phaseStep>20){_phase=1;_phaseStep=0;_frame=0;blitz_music_set_playing(_music,1);}}
@@ -159,7 +177,12 @@ static NSString *const shader=@"#include <metal_stdlib>\nusing namespace metal;\
 - (void)faster:(id)sender{[self setSpeedValue:_speed+0.1];}
 - (void)normalSpeed:(id)sender{[self setSpeedValue:1];}
 - (void)fullscreen:(id)sender{[self.window toggleFullScreen:nil];}
-- (void)about:(id)sender{[NSApp orderFrontStandardAboutPanelWithOptions:@{NSAboutPanelOptionApplicationName:@"Blitz",NSAboutPanelOptionApplicationVersion:@"1996 → macOS",NSAboutPanelOptionCredits:[[NSAttributedString alloc]initWithString:@"Original code and graphics: Frédéric Diebold / Synergy Design\nOriginal music: Monty / Analog\nOriginal 1024 × 768 pixel calculations and extracted assets.\nMADH playback uses PlayerPRO.\nClick or Escape to finish; Space to pause; R to replay."]}];}
+#ifdef BLITZ12
+- (void)setDepth:(int)depth{blitz_core_depth(&_core,depth);_depth8.state=depth==8?NSControlStateValueOn:NSControlStateValueOff;_depth16.state=depth==16?NSControlStateValueOn:NSControlStateValueOff;[self renderCurrent];}
+- (void)depth8:(id)sender{[self setDepth:8];}
+- (void)depth16:(id)sender{[self setDepth:16];}
+#endif
+- (void)about:(id)sender{[NSApp orderFrontStandardAboutPanelWithOptions:@{NSAboutPanelOptionApplicationName:BLITZ_NAME,NSAboutPanelOptionApplicationVersion:@"1996 → macOS",NSAboutPanelOptionCredits:[[NSAttributedString alloc]initWithString:@"Original code and graphics: Frédéric Diebold / Synergy Design\nOriginal music: Monty / Analog\nIn honor of the original program and its makers.\nRecovered 1024 × 768 pixel calculations and original assets.\nMADH playback uses PlayerPRO.\nClick or Escape to finish; Space to pause; R to replay."]}];}
 - (void)saveFrame:(id)sender{
     BOOL wasPaused=_paused;if(!wasPaused)[self togglePause:nil];
     NSSavePanel*panel=[NSSavePanel savePanel];panel.nameFieldStringValue=[NSString stringWithFormat:@"Blitz-frame-%06u.png",_frame];

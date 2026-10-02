@@ -1,6 +1,15 @@
-# Blitz for modern macOS
+# Blitz for modern macOS — 1.1 and 1.2
 
 A native adaptation of **Blitz 1.1**, the 1996 Macintosh demoscene intro by **Synergy Design**. This project is made **in honor of the original program and its makers**, preserving its motion, pixel graphics, logo, icon and original music for modern Macs.
+
+## Choose a version
+
+| Port | Download | Behavior and build instructions |
+|---|---|---|
+| Blitz 1.1 | [v1.1.0 release](https://github.com/rpflug/Blitz/releases/tag/v1.1.0) | The 256-color adaptation documented below |
+| Blitz 1.2 | [v1.2.0 release](https://github.com/rpflug/Blitz/releases/tag/v1.2.0) | [1.2 documentation](native12/README.md): 16-bit grayscale and 8-bit modes, recovered 1.2 motion and layer count |
+
+Both apps preserve the original music, logo and icon and run at 1024 × 768 by default. The 1.2 port starts in the supplied configuration’s 16-bit mode; Command-1 selects 8-bit white points and Command-2 restores grayscale. Both versions support Apple Silicon and Intel Macs.
 
 ## Original makers and tribute
 
@@ -13,11 +22,11 @@ The original readme describes Blitz as a “little FAT” intro coded in two day
 
 Credits are transcribed from the [original Blitz readme](analysis/original/Blitz-Readme.txt), preserved here as UTF-8 with its original wording. Its date is recorded verbatim as `10/11/96`. The historical greetings name Edyx / Ellipsoid, Purple Motion / Future Crew, Cafein members and Toal’NKor / RealTech.
 
-The adaptation was reconstructed from the original Macintosh executable and its resource fork. Original artwork, music and program authorship remain with their creators. See [NOTICE.md](NOTICE.md) for provenance and licensing distinctions.
+The adaptation was reconstructed from the original Macintosh executable and its resource fork. Original artwork, music and program authorship remain with their creators. See [NOTICE.md](NOTICE.md) for provenance and licensing distinctions. Blitz 1.2’s original documentation is also retained in [analysis-1.2](analysis-1.2/README.md), with historical contact details omitted from its public readme copy.
 
-## Running
+## Running Blitz 1.1
 
-Download the app from [GitHub Releases](https://github.com/rpflug/Blitz/releases/latest), unzip it, and open **Blitz.app**. When building from source, open **build/Blitz.app**. The app includes the original MADH track, original PICT logo and original Finder icon. It requires macOS 13 or later and supports both Apple Silicon and Intel Macs with Metal.
+Download the app from [GitHub Releases](https://github.com/rpflug/Blitz/releases/tag/v1.1.0), unzip it, and open **Blitz.app**. When building from source, open **build/Blitz.app**. The app includes the original MADH track, original PICT logo and original Finder icon. It requires macOS 13 or later and supports both Apple Silicon and Intel Macs with Metal.
 
 ## Controls
 
@@ -34,7 +43,7 @@ Download the app from [GitHub Releases](https://github.com/rpflug/Blitz/releases
 
 The Playback menu contains the same actions and displays the current speed. The window title displays the animation frame. Timing controls change the animation cadence without changing music pitch or tempo. Speed currently resets to 1.00× when the app launches.
 
-## Preserved behavior
+## Preserved behavior (Blitz 1.1)
 
 The software framebuffer uses the original setup’s **1024 × 768** dimensions. The motion table, 40-point circle, layer order, integer division, 16-bit clipping and direct byte pixel writes follow the PowerPC instructions. The original pi constant is preserved. Single-precision intermediates and double-precision calculations are kept in their original order; compiler floating-point contraction is disabled. Metal presents the framebuffer with nearest-neighbor sampling and integer scaling whenever the window is large enough. Resize and full screen do not alter the simulation dimensions.
 
@@ -44,7 +53,7 @@ The 320 × 200 PICT is decoded directly from the resource. Its source colors and
 
 The original 43,962-byte MADH track is bundled unchanged. PlayerPRO's MADH decoder recovers four channels, twelve patterns, fifteen order entries and five samples totaling 8,630 bytes. A native AVAudioSourceNode receives 44.1 kHz stereo PCM from the tracker mixer. No MIDI synthesizer, replacement song or prerecorded soundtrack is used. The classic driver's alternating 30/70 panning is applied; this particular module has no panning effects. Exit volume falls by three units per channel per fade step, matching the main routine's four channel-volume decrements. OS audio resampling may occur when the output device uses a different rate.
 
-## Accuracy and validation
+## Accuracy and validation (Blitz 1.1)
 
 `native/verify_ppc.py` independently executes the recovered PowerPC instructions for the table generation and frame/pixel routines. All 1024 motion entries, all 40 circle entries and all pixels in frames 0, 1, 60, 256 and 1023 match the native renderer exactly. The test executes 77,582 original instructions for table generation. This restricted interpreter substitutes host libm for the old MathLib; it is not a full classic Mac emulator.
 

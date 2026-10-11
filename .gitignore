@@ -3,6 +3,7 @@
 *.dSYM/
 
 /build12/
+/omarchy/target/
 
 __pycache__/
 *.pyc

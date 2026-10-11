@@ -5,6 +5,14 @@
 #define EMBEDPLUGS 1
 #include "Import-Export/MADH/MADH.c"
 
+#ifdef WIN32
+/* Blitz sends PCM through SDL; the legacy PlayerPRO Win32 drivers are unused. */
+Boolean DirectSoundInit(MADDriverRec *driver) { (void)driver; return false; }
+void DirectSoundClose(MADDriverRec *driver) { (void)driver; }
+Boolean W95_Init(MADDriverRec *driver) { (void)driver; return false; }
+void W95_Exit(MADDriverRec *driver) { (void)driver; }
+#endif
+
 /* MADH conversion and mixing use PlayerPRO source, see vendor/PlayerPRO/LICENSE.txt.
    Modern audio I/O is separate; no plugin discovery or legacy hardware drivers run. */
 struct BlitzMusic {

@@ -1,8 +1,10 @@
 #include "RDriver.h"
 #include "MADFileUtils.h"
 #include "MADPrivate.h"
+#ifndef WIN32
 #include <dlfcn.h>
 #include <dirent.h>
+#endif
 
 // TODO: get plug-in paths from an environment variable.
 
@@ -63,6 +65,21 @@ MADErr CallImportPlug(MADLibrary	*inMADDriver,
 	return (*inMADDriver->ThePlug[PlugNo].IOPlug)(order, AlienFile, theNewMAD, info, &driverSettings);
 }
 
+#ifdef WIN32
+// Windows builds use the built-in MADK importer and do not load ELF plugins.
+void MInitImportPlug(MADLibrary *inMADDriver, const char *PlugsFolderName)
+{
+	(void)PlugsFolderName;
+	inMADDriver->ThePlug = NULL;
+	inMADDriver->TotalPlug = 0;
+}
+
+void CloseImportPlug(MADLibrary *inMADDriver)
+{
+	free(inMADDriver->ThePlug);
+	inMADDriver->ThePlug = NULL;
+}
+#else
 static int PlugFileCheck(const struct dirent *toTest)
 {
 	// Deliberately skip over non-regular files,
@@ -153,6 +170,7 @@ void CloseImportPlug(MADLibrary *inMADDriver)
 	}
 	free(inMADDriver->ThePlug);
 }
+#endif
 
 MADErr PPInfoFile(MADLibrary *inMADDriver, char *kindFile, char *AlienFile, MADInfoRec *InfoRec)
 {

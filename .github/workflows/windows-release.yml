@@ -1,6 +1,12 @@
 name: Windows release executable
 
 on:
+  pull_request:
+    paths:
+      - .github/workflows/windows-release.yml
+      - omarchy/**
+      - native/Music.c
+      - native/Music.h
   release:
     types: [published]
   workflow_dispatch:
@@ -49,6 +55,7 @@ jobs:
           path: Blitz-1.2-Windows-x64.exe
           if-no-files-found: error
       - name: Select release tag
+        if: github.event_name != 'pull_request'
         id: release
         shell: bash
         env:
@@ -64,6 +71,7 @@ jobs:
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
       - uses: softprops/action-gh-release@v2
+        if: github.event_name != 'pull_request'
         with:
           tag_name: ${{ steps.release.outputs.tag }}
           files: Blitz-1.2-Windows-x64.exe

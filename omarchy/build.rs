@@ -81,7 +81,7 @@ fn main() {
         let mut compiler = Command::new("cc");
         compiler.args(["-c", "-O2", "-std=gnu11", "-U__APPLE__"]);
         if target_os == "windows" {
-            compiler.args(["-DWIN32", "-D__LITTLE_ENDIAN__"]);
+            compiler.args(["-DWIN32", "-D__LITTLE_ENDIAN__", "-DBoolean=bool"]);
         } else {
             compiler.args(["-D__UNIX__", "-D__ELF__", "-D__LITTLE_ENDIAN__"]);
         }

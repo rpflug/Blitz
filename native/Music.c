@@ -16,15 +16,9 @@ struct BlitzMusic {
     atomic_int playing, fade, restart;
 };
 int blitz_music_rate(void) { return 44100; }
-BlitzMusic *blitz_music_create(const char *path, int *error) {
+static BlitzMusic *blitz_music_create_owned(char *bytes, size_t size, int *error) {
     *error = 0;
-    FILE *f = fopen(path, "rb");
-    if (!f) { *error=-2; return NULL; }
-    fseek(f,0,SEEK_END); long size=ftell(f); rewind(f);
-    if (size < sizeof(oldMADSpec)) { fclose(f); *error=-3; return NULL; }
-    char *bytes=malloc(size);
-    if (!bytes || fread(bytes,1,size,f)!=(size_t)size) { free(bytes);fclose(f);*error=-2;return NULL; }
-    fclose(f);
+    if (size < sizeof(oldMADSpec)) { free(bytes); *error=-3; return NULL; }
     BlitzMusic *m=calloc(1,sizeof(*m));
     if(!m){free(bytes);*error=-1;return NULL;}
     m->song=calloc(1,sizeof(MADMusic));m->library=calloc(1,sizeof(MADLibrary));
@@ -47,6 +41,24 @@ BlitzMusic *blitz_music_create(const char *path, int *error) {
     m->cursor=m->available;atomic_init(&m->playing,1);atomic_init(&m->fade,0);atomic_init(&m->restart,0);
     fprintf(stderr,"Blitz MADH: %s, %u channels, %u patterns, %u orders, speed %d, tempo %d; buffer %zu frames\n",m->song->header->name,m->song->header->numChn,m->song->header->numPat,m->song->header->numPointers,m->song->header->speed,m->song->header->tempo,m->available);
     return m;
+}
+BlitzMusic *blitz_music_create_memory(const void *data, size_t size, int *error) {
+    if (!data || !size) { *error=-3; return NULL; }
+    char *bytes=malloc(size);
+    if (!bytes) { *error=-1; return NULL; }
+    memcpy(bytes,data,size);
+    return blitz_music_create_owned(bytes,size,error);
+}
+BlitzMusic *blitz_music_create(const char *path, int *error) {
+    FILE *f = fopen(path, "rb");
+    if (!f) { *error=-2; return NULL; }
+    if (fseek(f,0,SEEK_END)) { fclose(f); *error=-2; return NULL; }
+    long size=ftell(f); rewind(f);
+    if (size < 0) { fclose(f); *error=-2; return NULL; }
+    char *bytes=malloc((size_t)size);
+    if (!bytes || fread(bytes,1,(size_t)size,f)!=(size_t)size) { free(bytes);fclose(f);*error=-2;return NULL; }
+    fclose(f);
+    return blitz_music_create_owned(bytes,(size_t)size,error);
 }
 void blitz_music_destroy(BlitzMusic *m) {
     if (!m) return;

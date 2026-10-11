@@ -1,4 +1,4 @@
-# Blitz for modern macOS — 1.1 and 1.2
+# Blitz 1.1 and 1.2 preservation ports
 
 A native adaptation of **Blitz 1.1**, the 1996 Macintosh demoscene intro by **Synergy Design**. This project is made **in honor of the original program and its makers**, preserving its motion, pixel graphics, logo, icon and original music for modern Macs.
 
@@ -8,8 +8,10 @@ A native adaptation of **Blitz 1.1**, the 1996 Macintosh demoscene intro by **Sy
 |---|---|---|
 | Blitz 1.1 | [v1.1.0 release](https://github.com/rpflug/Blitz/releases/tag/v1.1.0) | The 256-color adaptation documented below |
 | Blitz 1.2 | [v1.2.0 release](https://github.com/rpflug/Blitz/releases/tag/v1.2.0) | [1.2 documentation](native12/README.md): 16-bit grayscale and 8-bit modes, recovered 1.2 motion and layer count |
+| Omarchy / Linux | [Rust port](omarchy/README.md) | Both versions, original assets and music, SDL2 window |
+| Windows x64 | [Windows build workflow](.github/workflows/windows-release.yml) | Builds a self-contained executable for the Blitz 1.2 release |
 
-Both apps preserve the original music, logo and icon and run at 1024 × 768 by default. The 1.2 port starts in the supplied configuration’s 16-bit mode; Command-1 selects 8-bit white points and Command-2 restores grayscale. Both versions support Apple Silicon and Intel Macs.
+The macOS apps preserve the original music, logo and icon and run at 1024 × 768 by default. The 1.2 port starts in the supplied configuration’s 16-bit mode; Command-1 selects 8-bit white points and Command-2 restores grayscale. Both versions support Apple Silicon and Intel Macs. The Rust port runs both versions on Omarchy and other Linux desktops.
 
 ## Original makers and tribute
 
@@ -27,6 +29,14 @@ The adaptation was reconstructed from the original Macintosh executable and its 
 ## Running Blitz 1.1
 
 Download the app from [GitHub Releases](https://github.com/rpflug/Blitz/releases/tag/v1.1.0), unzip it, and open **Blitz.app**. When building from source, open **build/Blitz.app**. The app includes the original MADH track, original PICT logo and original Finder icon. It requires macOS 13 or later and supports both Apple Silicon and Intel Macs with Metal.
+
+## Running on Omarchy
+
+Install `rust`, `base-devel`, `sdl2` and `zenity`, then run `cargo run --release --manifest-path omarchy/Cargo.toml` from the repository root. This starts Blitz 1.2; add `-- --1.1` to start Blitz 1.1. See [the Omarchy port notes](omarchy/README.md) for controls and implementation details.
+
+## Running on Windows
+
+The Windows x64 workflow builds a self-contained `Blitz-1.2-Windows-x64.exe` and attaches it to the Blitz 1.2 GitHub release. Run it from Actions to add the executable to the existing `v1.2.0` release. It bundles SDL2 and zlib statically, so no SDL2 DLL is needed. The executable starts Blitz 1.2 and accepts `--1.1` to start Blitz 1.1.
 
 ## Controls
 
